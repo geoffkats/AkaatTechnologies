@@ -1,0 +1,579 @@
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* AKAAT Brand Colors */
+    --color-akaat-blue: #0F4C81;
+    --color-akaat-green: #2ECC71;
+    --color-akaat-orange: #F39C12;
+    
+    --color-zinc-50: #fafafa;
+    --color-zinc-100: #f5f5f5;
+    --color-zinc-200: #e5e5e5;
+    --color-zinc-300: #d4d4d4;
+    --color-zinc-400: #a3a3a3;
+    --color-zinc-500: #737373;
+    --color-zinc-600: #525252;
+    --color-zinc-700: #404040;
+    --color-zinc-800: #262626;
+    --color-zinc-900: #171717;
+    --color-zinc-950: #0a0a0a;
+
+    --color-accent: var(--color-akaat-blue);
+    --color-accent-content: var(--color-akaat-blue);
+    --color-accent-foreground: var(--color-white);
+}
+
+@layer theme {
+    .dark {
+        --color-accent: var(--color-akaat-green);
+        --color-accent-content: var(--color-akaat-green);
+        --color-accent-foreground: var(--color-neutral-800);
+    }
+}
+
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+    
+    body {
+        font-family: 'Inter', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+        background-color: #fff;
+    }
+}
+
+[data-flux-field]:not(ui-radio, ui-checkbox) {
+    @apply grid gap-2;
+}
+
+[data-flux-label] {
+    @apply  !mb-0 !leading-tight;
+}
+
+input:focus[data-flux-control],
+textarea:focus[data-flux-control],
+select:focus[data-flux-control] {
+    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+}
+
+/* Smooth floating animations */
+@keyframes float-slow {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes float-medium {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.float-slow { 
+    animation: float-slow 6s ease-in-out infinite; 
+}
+
+.float-medium { 
+    animation: float-medium 4s ease-in-out infinite; 
+}
+
+/* Specific brand color */
+.bg-brand-orange { 
+    background-color: #f15a38; 
+}
+
+.text-brand-orange { 
+    color: #f15a38; 
+}
+
+.border-brand-orange { 
+    border-color: #f15a38; 
+}
+
+/* Custom frame for the person image */
+.geometric-frame {
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 120px; /* Asymmetric cut from image */
+}
+
+/* Subtle grid pattern */
+.grid-bg {
+    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* Gauge bar animation simulated */
+.gauge-ring {
+    stroke-dasharray: 251.2;
+    stroke-dashoffset: 50.24; /* 80% */
+}
+
+/* Professional AKAAT Styles - No Gradients */
+.btn-primary {
+    @apply bg-[#0F4C81] hover:bg-[#0a3d6b] text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl;
+}
+
+.btn-secondary {
+    @apply bg-[#2ECC71] hover:bg-[#27ae60] text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl;
+}
+
+.btn-accent {
+    @apply bg-[#F39C12] hover:bg-[#e67e22] text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl;
+}
+
+.btn-outline {
+    @apply border-2 border-[#0F4C81] text-[#0F4C81] hover:bg-[#0F4C81] hover:text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300;
+}
+
+.text-akaat-blue {
+    color: #0F4C81;
+}
+
+.text-akaat-green {
+    color: #2ECC71;
+}
+
+.text-akaat-orange {
+    color: #F39C12;
+}
+
+.bg-akaat-blue {
+    background-color: #0F4C81;
+}
+
+.bg-akaat-green {
+    background-color: #2ECC71;
+}
+
+.bg-akaat-orange {
+    background-color: #F39C12;
+}
+
+/* Professional Navigation */
+.nav-link {
+    @apply text-gray-700 hover:text-[#0F4C81] px-4 py-2 text-sm font-medium transition-colors duration-200 relative;
+}
+
+.nav-link.active {
+    @apply text-[#0F4C81];
+}
+
+.nav-link.active::after {
+    content: '';
+    @apply absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-[#0F4C81];
+}
+
+/* Modern Hero Section - Marketive Style */
+.hero-section {
+    @apply flex items-center bg-white py-12;
+}
+
+.hero-content {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-20 items-center;
+}
+
+.hero-text {
+    @apply space-y-6;
+}
+
+.hero-title {
+    @apply text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.1] tracking-tight;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.hero-subtitle {
+    @apply text-xl text-gray-600 leading-relaxed;
+}
+
+.hero-buttons {
+    @apply flex flex-col sm:flex-row gap-4;
+}
+
+.hero-image {
+    @apply relative flex items-center justify-center;
+}
+
+/* Updated Button Styles */
+.btn-primary {
+    @apply bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl;
+}
+
+.btn-outline {
+    @apply border-2 border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-4 rounded-lg font-semibold transition-all duration-300;
+}
+
+/* Professional Cards */
+.service-card {
+    @apply bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-[#0F4C81]/20;
+}
+
+.service-card:hover {
+    @apply transform -translate-y-1;
+}
+
+/* Professional Sections */
+.section-padding {
+    @apply py-20;
+}
+
+.section-title {
+    @apply text-4xl font-bold text-gray-900 mb-6;
+}
+
+.section-subtitle {
+    @apply text-xl text-gray-600 max-w-3xl mx-auto;
+}
+
+/* Modern Service Card Styles */
+.service-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+}
+
+.service-card img {
+    transition: transform 0.6s ease;
+}
+
+.service-card:hover img {
+    transform: scale(1.1);
+}
+
+/* Glass Tag Effect for Products */
+.glass-tag {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Product Card Enhancements */
+.product-card {
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Filter Button Styles */
+.product-filter {
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+.product-filter:hover {
+    background-color: rgba(241, 90, 56, 0.1);
+}
+
+.product-filter.active {
+    background-color: rgba(241, 90, 56, 0.1);
+}
+
+/* Training Section Styles */
+.training-card {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+}
+
+.training-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+.training-card img {
+    transition: transform 0.7s ease;
+}
+
+.training-card:hover img {
+    transform: scale(1.15);
+}
+
+/* Enhanced text readability for training cards */
+.training-card h3,
+.training-card p,
+.training-card span,
+.training-card div {
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.9), 0 2px 6px rgba(0, 0, 0, 1);
+}
+
+/* Remove text shadow from buttons and icons */
+.training-card a,
+.training-card svg {
+    text-shadow: none !important;
+}
+
+.training-card .text-white {
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+.training-card .text-white\/90 {
+    color: rgba(255, 255, 255, 0.98) !important;
+    font-weight: 500;
+}
+
+.training-card .text-white\/80 {
+    color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Enhanced icon containers */
+.training-card .w-18 {
+    width: 4.5rem;
+    height: 4.5rem;
+}
+
+/* Ensure icons and bullets are visible */
+.training-card .bg-white {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Backdrop blur support for training cards */
+.training-card .backdrop-blur-md {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+/* Enhanced gradient overlays */
+.training-card .bg-gradient-to-t {
+    background: linear-gradient(to top, var(--tw-gradient-stops));
+}
+
+/* Enhanced button styling */
+.training-card a {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-weight: 600;
+    letter-spacing: 0.025em;
+}
+
+.training-card a:hover {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Gallery 3D Slider Styles */
+.gallery-container {
+    perspective: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 550px;
+    position: relative;
+}
+
+.gallery-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.gallery-card {
+    position: absolute;
+    width: 340px;
+    height: 480px;
+    border-radius: 40px;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Logic for depth based on custom data-position */
+.gallery-card[data-pos="0"] {
+    transform: translateX(0) scale(1.15);
+    z-index: 30;
+    filter: brightness(1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+}
+
+.gallery-card[data-pos="-1"] {
+    transform: translateX(-260px) scale(0.85);
+    z-index: 20;
+    filter: brightness(0.6);
+}
+
+.gallery-card[data-pos="1"] {
+    transform: translateX(260px) scale(0.85);
+    z-index: 20;
+    filter: brightness(0.6);
+}
+
+.gallery-card[data-pos="-2"] {
+    transform: translateX(-480px) scale(0.7);
+    z-index: 10;
+    filter: brightness(0.4);
+    opacity: 0.6;
+}
+
+.gallery-card[data-pos="2"] {
+    transform: translateX(480px) scale(0.7);
+    z-index: 10;
+    filter: brightness(0.4);
+    opacity: 0.6;
+}
+
+/* Hide cards further out */
+.gallery-card.hidden-pos {
+    opacity: 0;
+    transform: translateX(0) scale(0.5);
+    pointer-events: none;
+}
+
+.play-btn {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+}
+
+/* Gallery filter buttons */
+.gallery-filter.active {
+    background-color: var(--color-akaat-blue) !important;
+    color: white !important;
+    border: none !important;
+}
+
+/* Lightbox enhancements */
+.lightbox-image {
+    transition: transform 0.3s ease;
+}
+
+.lightbox-image:hover {
+    transform: scale(1.02);
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+    .glass-tag {
+        padding: 12px;
+        margin: 0 12px;
+    }
+    
+    .product-card {
+        height: 350px;
+    }
+    
+    .product-filter {
+        font-size: 14px;
+        padding: 6px 10px;
+    }
+    
+    .training-card {
+        height: 450px !important;
+        padding: 0;
+    }
+    
+    .training-card .relative.z-10 {
+        padding: 24px;
+    }
+    
+    /* Gallery mobile adjustments */
+    .gallery-container {
+        height: 400px;
+    }
+    
+    .gallery-card {
+        width: 280px;
+        height: 380px;
+    }
+    
+    .gallery-card[data-pos="-1"] {
+        transform: translateX(-200px) scale(0.8);
+    }
+    
+    .gallery-card[data-pos="1"] {
+        transform: translateX(200px) scale(0.8);
+    }
+    
+    .gallery-card[data-pos="-2"] {
+        transform: translateX(-360px) scale(0.6);
+    }
+    
+    .gallery-card[data-pos="2"] {
+        transform: translateX(360px) scale(0.6);
+    }
+    
+    /* Lightbox mobile adjustments */
+    .fixed.inset-0 .relative.max-w-7xl {
+        padding: 20px;
+    }
+    
+    .fixed.inset-0 img {
+        max-height: 70vh;
+    }
+    
+    .fixed.inset-0 .mt-6 {
+        margin-top: 20px;
+    }
+    
+    .fixed.inset-0 .text-2xl {
+        font-size: 1.5rem;
+    }
+}
+     body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fff;
+        }
+
+        /* Smooth floating animations */
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes float-medium {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .float-slow { animation: float-slow 6s ease-in-out infinite; }
+        .float-medium { animation: float-medium 4s ease-in-out infinite; }
+        
+        /* Specific brand color */
+        .bg-brand-orange { background-color: #f15a38; }
+        .text-brand-orange { color: #f15a38; }
+        .border-brand-orange { border-color: #f15a38; }
+        
+        /* AKAAT Secondary Colors for Avatars */
+        .bg-akaat-blue { background-color: #3b82f6; }
+        .bg-akaat-green { background-color: #10b981; }
+        .bg-akaat-orange { background-color: #f59e0b; }
+
+        /* Custom frame for the person image */
+        .geometric-frame {
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 120px;
+        }
+
+        /* Subtle grid pattern */
+        .grid-bg {
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
